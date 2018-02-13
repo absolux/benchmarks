@@ -1,0 +1,25 @@
+{
+  "name": "benchmarks",
+  "version": "1.0.0",
+  "description": "Node.js web framework benchmarks",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "benchmark",
+    "framework",
+    "node"
+  ],
+  "author": "absolux",
+  "license": "MIT",
+  "dependencies": {
+    "aldo-http": "^0.1.2",
+    "express": "^4.16.2",
+    "fastify": "^1.0.0-rc.1",
+    "koa": "^2.5.0",
+    "micro": "^9.1.0",
+    "ora": "^1.4.0",
+    "wrk": "^1.2.0"
+  }
+}
