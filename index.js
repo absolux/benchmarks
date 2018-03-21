@@ -1,63 +1,95 @@
 
 'use strict'
 
-const wrk = require('wrk')
 const createSpinner = require('ora')
 const { promisify } = require('util')
 const { readdirSync } = require('fs')
 const { basename, join } = require('path')
+const wunderbar = require('@gribnoysup/wunderbar')
 
-const PORT = process.env.PORT || 3000
+const wrk = promisify(require('wrk'))
 
-const wrkPromise = promisify(wrk)
-
-async function request (port, host = 'localhost') {
-  const options = {
-    // duration: 3,
+/**
+ * @param {string} port
+ */
+async function request (url) {
+  var options = {
+    duration: 5,
     threads: 10,
     connections: 100,
-    url: `http://${host}:${port}`
+    url: url
   }
 
-  return (await wrkPromise(options)).requestsPerSec
+  return (await wrk(options)).requestsPerSec
 }
 
-async function doBench (name, app, port) {
-  var result = { name }
+/**
+ * @param {string} label
+ * @param {string} app
+ */
+async function bench (label, app) {
+  var port = await app.start()
 
-  // start
-  await app.up(port)
+  // calculate
+  var value = await request(`http://0.0.0.0:${port}`)
 
-  // wrk
-  result.rps = await request(port)
+  await app.stop()
 
-  // stop
-  await app.down()
-
-  return result
+  return { label, value }
 }
 
-async function bench (folder) {
-  const results = []
-  const files = readdirSync(folder)
+/**
+ * @param {string} folder
+ */
+function loadFiles (folder) {
+  return readdirSync(folder).map((filename) => {
+    return {
+      name: basename(filename).slice(0, -3),
+      path: join(__dirname, folder, filename)
+    }
+  })
+}
 
-  for (let file of files) {
-    const spinner = createSpinner()
-    const name = basename(file).slice(0, -3) // without .js
-    const app = require(join(__dirname, folder, file))
+/**
+ * @param {string} folder
+ */
+async function run (folder) {
+  var results = []
+  var files = loadFiles(folder)
+
+  for (let { name, path } of files) {
+    let spinner = createSpinner()
 
     try {
       spinner.start(`Working on ${name} app`)
 
-      results.push(await doBench(name, app, PORT))
+      results.push(await bench(name, require(path)))
 
       spinner.succeed()
-    } catch (error) {
+    } catch (err) {
+      console.error(err)
       spinner.fail()
+      results = []
+      break
     }
   }
 
-  console.dir(results.sort((a, b) => a.rps < b.rps), { colors: true })
+  if (results.length) printChart(results, { min: 0, length: 100 })
 }
 
-bench('hello')
+/**
+ * @param {Array<{ label: string, value: number }>} data
+ * @param {{ [x: string]: any }} options
+ */
+function printChart (data, options) {
+  var { chart, legend } = wunderbar(data, options)
+
+  console.log()
+  console.log(chart)
+  console.log()
+  console.log(legend)
+  console.log()
+}
+
+// run
+run('hello')

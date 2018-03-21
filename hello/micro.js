@@ -4,18 +4,17 @@
 const micro = require('micro')
 
 // configure the app
-const server = micro(async function (req, res) {
-  return 'Hello world!'
-})
+const server = micro((req, res) => 'Hello world!')
 
 /**
  * Launch the app
  *
- * @param {Number} port
- * @returns {Promise<void>}
+ * @returns {Promise<Number>}
  */
-exports.up = async function up (port) {
-  return new Promise((resolve) => server.listen(port, resolve))
+exports.start = function start () {
+  return new Promise((resolve) => server.listen(0, resolve)).then(() => {
+    return server.address().port
+  })
 }
 
 /**
@@ -23,6 +22,6 @@ exports.up = async function up (port) {
  *
  * @returns {Promise<void>}
  */
-exports.down = async function down () {
+exports.stop = function stop () {
   return new Promise((resolve) => server.close(resolve))
 }
