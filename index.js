@@ -74,7 +74,13 @@ async function run (folder) {
     }
   }
 
-  if (results.length) printChart(results, { min: 0, length: 100 })
+  if (results.length) {
+    printChart(results, {
+      length: 100,
+      // sort: 'min',
+      min: 0
+    })
+  }
 }
 
 /**
