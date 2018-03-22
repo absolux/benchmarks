@@ -1,10 +1,15 @@
 
 'use strict'
 
-const { createServer } = require('http')
+const app = require('express')()
 
-// configure the server
-const server = createServer((req, res) => res.end('Hello world!'))
+// configure the app
+var server
+
+app.disable('etag')
+app.disable('x-powered-by')
+
+app.use((req, res) => res.send('Hello World!'))
 
 /**
  * Launch the app
@@ -12,7 +17,9 @@ const server = createServer((req, res) => res.end('Hello world!'))
  * @returns {Promise<Number>}
  */
 exports.start = function start () {
-  return new Promise((resolve) => server.listen(0, resolve)).then(() => {
+  return new Promise((resolve) => {
+    server = app.listen(0, resolve)
+  }).then((srv) => {
     return server.address().port
   })
 }
