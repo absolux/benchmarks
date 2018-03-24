@@ -6,8 +6,8 @@ const app = require('express')()
 // configure the app
 var server
 
-app.disable('etag')
-app.disable('x-powered-by')
+// app.disable('etag')
+// app.disable('x-powered-by')
 
 app.use((req, res) => res.send('Hello World!'))
 
@@ -19,7 +19,7 @@ app.use((req, res) => res.send('Hello World!'))
 exports.start = function start () {
   return new Promise((resolve) => {
     server = app.listen(0, resolve)
-  }).then((srv) => {
+  }).then(() => {
     return server.address().port
   })
 }
