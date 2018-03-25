@@ -61,7 +61,7 @@ async function run (folder) {
     let spinner = createSpinner()
 
     try {
-      spinner.start(`Working on ${name} app`)
+      spinner.start(`Working on "${name}"`)
 
       results.push(await bench(name, require(path)))
 
