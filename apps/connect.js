@@ -5,6 +5,7 @@ var server
 var app = require('connect')()
 
 app.use((_, res) => {
+  res.setHeader('Content-Type', 'text/plain')
   res.end('Hello world!')
 })
 

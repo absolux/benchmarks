@@ -4,7 +4,10 @@
 const { createServer } = require('http')
 
 // configure the server
-const server = createServer((req, res) => res.end('Hello world!'))
+const server = createServer((req, res) => {
+  res.setHeader('Content-Type', 'text/plain')
+  res.end('Hello world!')
+})
 
 /**
  * Launch the app
