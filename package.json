@@ -16,6 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "@gribnoysup/wunderbar": "^2.1.0",
+    "aldo": "^0.3.0",
     "connect": "^3.6.6",
     "express": "^4.16.3",
     "fastify": "^1.1.1",
