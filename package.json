@@ -18,6 +18,7 @@
     "@gribnoysup/wunderbar": "^2.1.0",
     "aldo": "^0.3.0",
     "connect": "^3.6.6",
+    "delay": "^2.0.0",
     "express": "^4.16.3",
     "fastify": "^1.2.1",
     "koa": "^2.5.0",
