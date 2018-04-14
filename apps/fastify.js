@@ -18,7 +18,7 @@ const schema = {
   }
 }
 
-app.get('/', schema, function (req, reply) {
+app.get('/', schema, function (_, reply) {
   reply.send({ hello: 'world' })
 })
 

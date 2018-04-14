@@ -8,11 +8,9 @@ const server = Hapi.server({
 })
 
 server.route({
-  method: 'GET',
   path: '/',
-  handler: (request, h) => {
-      return { hello: 'world' }
-  }
+  method: 'GET',
+  handler: () => ({ hello: 'world' })
 })
 
 // Start the server
