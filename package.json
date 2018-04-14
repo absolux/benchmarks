@@ -12,6 +12,10 @@
     "framework",
     "node"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/absolux/benchmarks.git"
+  },
   "author": "absolux",
   "license": "MIT",
   "dependencies": {
@@ -26,6 +30,7 @@
     "micro": "^9.1.4",
     "ora": "^1.4.0",
     "polka": "^0.3.4",
+    "restify": "^7.1.1",
     "trek-engine": "^1.0.5",
     "wrk": "^1.2.0"
   }
